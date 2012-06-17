@@ -1,0 +1,24 @@
+{
+  "author": "Eirik Albrigtsen <analsandblaster@gmail.com>",
+  "name": "autonomy",
+  "description": "Lightweight functional helper library complementing ES5",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/clux/autonomy.git"
+  },
+  "main": "autonomy.js",
+  "scripts": {
+    "test": "tap ./test"
+  },
+  "dependencies": {
+    "operators": "~0.1.1"
+  },
+  "devDependencies": {
+    "tap": "~0.2.5"
+  },
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  }
+}
