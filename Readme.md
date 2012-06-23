@@ -36,7 +36,7 @@ $.iterate(3, "ha!", $.prepend("ha")); // [ 'ha!', 'haha!', 'hahaha!' ]
 [[1,2], [3,4]].map($.invoke('join','w')); // [ '1w2', '3w4']
 ````
 
-Read the [API of operators](https://github.com/clux/operators/blob/master/api.md), a re-exported child-module, then read the [core API](https://github.com/clux/origin/blob/master/api.md).
+Read the [API of operators](https://github.com/clux/operators/blob/master/api.md), a re-exported child-module, then read the [core API](https://github.com/clux/autonomy/blob/master/api.md).
 
 Note this module can be gotten directly as is, or gotten via the larger utility library: [interlude](https://github.com/clux/interlude) for which it originally was made.
 

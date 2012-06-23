@@ -1,15 +1,25 @@
 {
   "author": "Eirik Albrigtsen <analsandblaster@gmail.com>",
   "name": "autonomy",
-  "description": "Lightweight functional helper library complementing ES5",
-  "version": "0.0.0",
+  "description": "Lightweight functional utility library complementing ES5",
+  "version": "0.1.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/clux/autonomy.git"
   },
+  "keywords": [
+    "utility",
+    "functional",
+    "haskell",
+    "partial",
+    "curry",
+    "zipWith",
+    "FP",
+    "ES5"
+  ],
   "main": "autonomy.js",
   "scripts": {
-    "test": "tap ./test"
+    "test": "npm test operators && tap ./test"
   },
   "dependencies": {
     "operators": "~0.1.1"
@@ -20,5 +30,6 @@
   "optionalDependencies": {},
   "engines": {
     "node": "*"
-  }
+  },
+  "license": "MIT"
 }
