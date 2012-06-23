@@ -1,7 +1,7 @@
 # Autonomy API
-Autonomy exports basic functional helpers, looping constructs, functional sequencers which aims to complement existing ES5 methods with a slight functional style. 
+Autonomy exports basic functional helpers, looping constructs, functional sequencers which aims to complement existing ES5 methods with a slight functional style.
 
-This module is often bundled with [interlude](https://github.com/clux/interlude), where extra functions exist on the imported object. This API will only mention functions existing in the interlude-less case. 
+This module is often bundled with [interlude](https://github.com/clux/interlude), where extra functions exist on the imported object. This API will only mention functions existing in the interlude-less case.
 
 Autonomy pulls in the [operators](https://github.com/clux/operators) module. The [operators API](https://github.com/clux/operators/blob/master/api.md) should be read first as some of its functions will be referenced in the examples.
 
@@ -267,7 +267,7 @@ $.pluck(0, fibPairs);
 ### $.scan(xs, fn, start) :: results
 Operationally equivalent to `xs.reduce(fn, start)`, but additionally collects all the intermediate results. Thus:
 
-`scan(fn, z, [x1, x2, ...]) == [z, f(z, x1), f(f(z, x1), x2), ...]`
+`scan(fn, z, [x1, x2, ...]) equals [z, f(z, x1), f(f(z, x1), x2), ...]`
 
 This does not use `Array.prototype.reduce` under the covers, so 3rd and 4th arguments will always be undefined inside `fn`.
 
@@ -323,4 +323,4 @@ below.
 ### $.seq4(f, g, h, k) :: (x, y, z, w) -> k(h(g(f(x, y, z, w))))
 These specific shortcut functions are there to speed up the most common use cases of functional composition; a few functions with a few initial arguments.
 
-The speed of composing functions is in general not significant, but avoiding the variadic slice penalty can speed up such code [slightly](http://jsperf.com/crazyfunctional8).
+The speed of composing functions is in general not significant, but a [factor of two](http://jsperf.com/crazyfunctional8) for just specifying the number of functions is a worthy tradeoff.
