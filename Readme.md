@@ -1,4 +1,5 @@
-# Autonomy ![travis build status](https://secure.travis-ci.org/clux/autonomy.png)
+# Autonomy [![Build Status](https://secure.travis-ci.org/clux/autonomy.png)](http://travis-ci.org/clux/autonomy)
+
 Autonomy is a lightweight functional helper library. It is meant to complement an ES5 style with curried helpers, math helpers, curried accessors and higher order looping constructs.
 
 These library is partly inspired by Haskell's [Prelude](http://www.haskell.org/ghc/docs/latest/html/libraries/base/Prelude.html), but its exports are optimized for JavaScript semantics and performance. It does not try to make JavaScript into something it's not.
