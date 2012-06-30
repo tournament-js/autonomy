@@ -1,4 +1,4 @@
-var $ = require('operators')
+var $ = {}
   , slice = Array.prototype.slice
   , hasOwnProp = Object.prototype.hasOwnProperty;
 
@@ -18,14 +18,10 @@ $.constant = function (val) {
   };
 };
 
-// if using object as a hash, use this for security
-// but preferably set hash = Object.create(null)
-// and simply test for !!hash[key]
 $.has = function (obj, key) {
   return hasOwnProp.call(obj, key);
 };
 
-// can sometimes be useful to compose with..
 $.not = function (fn) {
   return function (x) {
     return !fn(x);
@@ -62,10 +58,18 @@ $.notElem = function (xs) {
   };
 };
 
+$.extend = function (target, source) {
+  var keys = Object.keys(source);
+  for (var j = 0; j < keys.length; j += 1) {
+    var name = keys[j];
+    target[name] = source[name];
+  }
+  return target;
+};
+
 // ---------------------------------------------
 // Math
 // ---------------------------------------------
-
 $.gcd = function (a, b) {
   a = Math.abs(a);
   b = Math.abs(b);
@@ -89,25 +93,9 @@ $.odd = function (n) {
   return n % 2 === 1;
 };
 
-// two curried versions
-$.pow = function (exponent) {
-  return function (x) {
-    return Math.pow(x, exponent);
-  };
-};
-
-$.logBase = function (base) {
-  return function (x) {
-    return Math.log(x) / Math.log(base);
-  };
-};
-
-$.log2 = $.logBase(2);
-
 // ---------------------------------------------
 // Property accessors
 // ---------------------------------------------
-
 $.get = function (prop) {
   return function (el) {
     return el[prop];
@@ -129,7 +117,6 @@ $.getDeep = function (str) {
   };
 };
 
-// property accessor map -- equivalent to _.pluck or xs.map($.get('prop'))
 $.pluck = function (prop, xs) {
   var result = [];
   for (var i = 0, len = xs.length; i < len; i += 1) {
@@ -138,7 +125,6 @@ $.pluck = function (prop, xs) {
   return result;
 };
 
-// first/last + generalized
 $.first = function (xs) {
   return xs[0];
 };
@@ -168,9 +154,6 @@ $.lastBy = function (fn, xs) {
 // ---------------------------------------------
 // Higher order looping
 // ---------------------------------------------
-
-// enumerate the first n positive integers
-// python's range, but 1-indexed inclusive
 $.range = function (start, stop, step) {
   if (arguments.length <= 1) {
     stop = start;
@@ -178,7 +161,7 @@ $.range = function (start, stop, step) {
   }
   step = arguments[2] || 1;
   var len = Math.max(Math.ceil((stop - start + 1) / step), 0)
-    , range = new Array(len);
+    , range = Array(len);
 
   for (var i = 0; i < len; i += 1, start += step) {
     range[i] = start;
@@ -194,8 +177,6 @@ $.replicate = function (num, el) {
   return result;
 };
 
-// can act as zipWith, zipWith3, zipWith4 as long as zipper function either:
-// has the same number of arguments as there are arrays OR is variadic
 $.zipWith = function () {
   var fn = arguments[0]
     , args = slice.call(arguments, 1)
@@ -213,9 +194,6 @@ $.zipWith = function () {
   return results;
 };
 
-// zip, zip3, zip4.. all in one!
-// inlining quite a bit faster: http://jsperf.com/inlinezip3
-// then not slicing helps too: http://jsperf.com/tosliceornottoslice5
 $.zip = function () {
   var numLists = arguments.length
     , results = []
@@ -239,7 +217,6 @@ $.iterate = function (times, init, fn) {
   return result;
 };
 
-// scan(fn, z)([x1, x2, ...]) == [z, f(z, x1), f(f(z, x1), x2), ...]
 $.scan = function (xs, fn, initial) {
   var result = [initial];
   for (var i = 0, len = xs.length ; i < len; i += 1) {
@@ -248,8 +225,9 @@ $.scan = function (xs, fn, initial) {
   return result;
 };
 
-
-// these need only curried versions, as immediate use could simply access prototype on xs
+// ---------------------------------------------
+// Curried Prototype Accessors
+// ---------------------------------------------
 $.reduce = function (fn, initial) {
   return function (xs) {
     return xs.reduce(fn, initial);
@@ -268,7 +246,6 @@ $.filter = function (fn) {
   };
 };
 
-// general accessor for anything else, more cumbersome but can do most things well
 $.invoke = function (method) {
   var args = slice.call(arguments, 1);
   return function (xs) {
@@ -280,22 +257,17 @@ $.invoke = function (method) {
 // ---------------------------------------------
 // Functional Sequencing (Composition)
 // ---------------------------------------------
-
-// $.seq(f1, f2, f3..., fn)(args...) == fn(...(f3(f2(f1(args...)))))
-// performance: http://jsperf.com/seqperformance
 $.seq = function () {
   var fns = arguments;
   return function () {
-    // only need to apply the first with initial args
     var res = fns[0].apply(this, arguments);
     for (var i = 1, len = fns.length; i < len; i += 1) {
-      res = fns[i](res); // rest chain in result from previous
+      res = fns[i](res);
     }
     return res;
   };
 };
 
-// more efficient functional sequencers
 $.seq2 = function (f, g) {
   return function (x, y, z, w) {
     return g(f(x, y, z, w));
@@ -313,7 +285,6 @@ $.seq4 = function (f, g, h, k) {
     return k(h(g(f(x, y, z, w))));
   };
 };
-
 
 // end - export
 module.exports = $;
