@@ -1,5 +1,6 @@
 var tap = require('tap')
   , test = tap.test
+  , op = require('operators')
   , $ = require('../');
 
 test('common', function (t) {
@@ -19,11 +20,6 @@ test('math', function (t) {
   t.equal($.gcd(21, 14), 7, "21 and 14 have 7 as gcd");
   t.equal($.lcm(5, 3), 15, "primes 5 and 3 have lcm as product");
   t.equal($.lcm(21, 14), 42, "21 and 14 have 42 as lcm");
-  t.equal($.pow(3)(2), 8, "2^3 === 8");
-  t.equal($.pow(0)(3), 1, "3^0 === 1");
-  t.equal($.pow(2)(4), 16, "4^2 === 16");
-  t.equal($.logBase(2)(16), 4, "4 is log2 of 16");
-  t.equal($.logBase(10)(100), 2, "2 is log10 of 1000");
   t.end();
 });
 
@@ -37,25 +33,25 @@ test("looping constructs", function (t) {
   t.deepEqual($.replicate(0, 5), [], "replicate 0 5");
   t.equal($.replicate(100, 5).length, 100, "replicate 100 x has length 100");
 
-  t.deepEqual($.scan([1,1,1], $.plus2, 5), [5,6,7,8],"scan add 5 [1,1,1] === [5,6,7,8]");
-  t.deepEqual($.iterate(5, 2, $.times(2)), [2,4,8,16,32], "iterate (*2)");
+  t.deepEqual($.scan([1,1,1], op.plus2, 5), [5,6,7,8],"scan add 5 [1,1,1] === [5,6,7,8]");
+  t.deepEqual($.iterate(5, 2, op.times(2)), [2,4,8,16,32], "iterate (*2)");
 
-  t.equal($.reduce($.plus2, 5)([1,1,1]), 8, "reduce add 5 + 1+1+1 === 8");
+  t.equal($.reduce(op.plus2, 5)([1,1,1]), 8, "reduce add 5 + 1+1+1 === 8");
 
-  t.deepEqual([[1,3,5],[2,3,1]].filter($.any($.gte(5))), [[1,3,5]], "filter any gte");
-  t.deepEqual([[1,3,5],[2,2,2]].filter($.all($.eq(2))), [[2,2,2]], "filter all eq");
-  t.deepEqual([[1,3,5],[2,2,2]].filter($.none($.eq(2))), [[1,3,5]], "filter none eq");
+  t.deepEqual([[1,3,5],[2,3,1]].filter($.any(op.gte(5))), [[1,3,5]], "filter any gte");
+  t.deepEqual([[1,3,5],[2,2,2]].filter($.all(op.eq(2))), [[2,2,2]], "filter all eq");
+  t.deepEqual([[1,3,5],[2,2,2]].filter($.none(op.eq(2))), [[1,3,5]], "filter none eq");
   t.end();
 });
 
 test("composition", function (t) {
-  t.equal($.seq3($.plus2, $.plus(5), $.times(2))(3,4), 24, "seq3 fns");
-  t.equal($.seq($.plus2, $.plus(5), $.times(2))(3,4), 24, "seq fns");
+  t.equal($.seq3(op.plus2, op.plus(5), op.times(2))(3,4), 24, "seq3 fns");
+  t.equal($.seq(op.plus2, op.plus(5), op.times(2))(3,4), 24, "seq fns");
 
-  var res = $.seq($.plus4, $.plus(1), $.plus(1), $.plus(1))(1,1,1,1);
+  var res = $.seq(op.plus4, op.plus(1), op.plus(1), op.plus(1))(1,1,1,1);
   t.equal(res, 7, "(1+1+1+1) +1 +1 +1");
 
-  var res = $.seq4($.plus4, $.plus(1), $.plus(1), $.plus(1))(1,1,1,1);
+  var res = $.seq4(op.plus4, op.plus(1), op.plus(1), op.plus(1))(1,1,1,1);
   t.equal(res, 7, "(1+1+1+1) +1 +1 +1 (but seq4)");
   t.end();
 });
@@ -63,7 +59,7 @@ test("composition", function (t) {
 test("accessors", function (t) {
   // first/last
   var ary = [{a:1}, {a:2}, {a:2, b:1}, {a:3}];
-  var aEq2 = $.seq2($.get('a'), $.eq(2));
+  var aEq2 = $.seq2($.get('a'), op.eq(2));
   t.deepEqual($.first(ary), {a:1}, "first");
   t.deepEqual($.last(ary), {a:3}, "last");
   t.deepEqual($.last([]), undefined, "last of empty");
@@ -97,10 +93,10 @@ test("accessors", function (t) {
   // pluck
   t.deepEqual($.pluck(0, [[1],[2],[3]]), [1,2,3], "$.pluck(0, ary)");
   t.deepEqual($.pluck('a', [{a:2}, {a:3}]), [2,3], "$.pluck('a', ary)");
-  
+
   // first/last
   var ary = [{a:1}, {a:2}, {a:2, b:1}, {a:3}];
-  var aEq2 = $.seq2($.get('a'), $.eq(2))
+  var aEq2 = $.seq2($.get('a'), op.eq(2))
   t.deepEqual($.first(ary), {a:1}, "first");
   t.deepEqual($.last(ary), {a:3}, "last");
   t.deepEqual($.last([]), undefined, "last of empty");
@@ -114,8 +110,8 @@ test("accessors", function (t) {
 });
 
 test("zipWith/zip", function (t) {
-  t.deepEqual($.zipWith($.plus2, [1,3,5], [2,4]), [3, 7], "zipWith plus2");
-  t.deepEqual($.zipWith($.add, [1,3,5], [0,0,0], [2,4]), [3, 7], "zipWith add");
+  t.deepEqual($.zipWith(op.plus2, [1,3,5], [2,4]), [3, 7], "zipWith plus2");
+  t.deepEqual($.zipWith(op.add, [1,3,5], [0,0,0], [2,4]), [3, 7], "zipWith add");
   t.deepEqual($.zip([1,3,5], [2,4]), [[1,2], [3,4]], "zip 2 lists");
   t.deepEqual($.zip([1,3,5], [0,0,0], [2,4]), [[1,0,2], [3,0,4]], "zip 3 lists");
   t.end();

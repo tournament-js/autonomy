@@ -19,12 +19,11 @@
   ],
   "main": "autonomy.js",
   "scripts": {
-    "test": "npm test operators && tap ./test"
+    "test": "tap ./test"
   },
-  "dependencies": {
-    "operators": "~0.1.1"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "operators": "latest",
     "tap": "~0.2.5"
   },
   "optionalDependencies": {},

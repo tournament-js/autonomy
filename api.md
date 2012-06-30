@@ -3,7 +3,7 @@ Autonomy exports basic functional helpers, looping constructs, functional sequen
 
 This module is often bundled with [interlude](https://github.com/clux/interlude), where extra functions exist on the imported object. This API will only mention functions existing in the interlude-less case.
 
-Autonomy pulls in the [operators](https://github.com/clux/operators) module. The [operators API](https://github.com/clux/operators/blob/master/api.md) should be read first as some of its functions will be referenced in the examples.
+Autonomy goes particularly well with the [operators](https://github.com/clux/operators) module. The [operators API](https://github.com/clux/operators/blob/master/api.md) should perhaps be skimmed to see what functions from there are used. Ultimately these are just simple shortcuts and are in this document assumed bound to the `op` object to illustrate how these go together.
 
 ## Functional Helpers
 
@@ -32,7 +32,7 @@ Returns the constant function f(y) = x.
 
 ### $.has(obj, key) :: Boolean
 Safe call to Object.prototype.hasOwnProperty. This is not meant to facilitate using an
-[object as a hash](http://www.devthought.com/2012/01/18/an-object-is-not-a-hash/).
+[object as a hash](http://www.devthought.com/2012/01/18/an-object-is-not-a-hash/). `Object.create(null)` is your friend.
 
 ````javascript
 $.has({a: 1, b: 2, c: 3}, "b"); // true
@@ -46,12 +46,12 @@ Returns a function which negates `fn` results.
 Sometimes useful for composing certain functions.
 
 ````javascript
-[8,3,4,5,6].filter($.not($.gt(5))); // [3, 4, 5]
+[8,3,4,5,6].filter($.not(op.gt(5))); // [3, 4, 5]
 
 var partition = function (p, xs) {
   return [xs.filter(p), xs.filter($.not(p))]
 };
-partition($.gt(5), [8,3,4,5,6]); // [ [ 8, 6 ], [ 3, 4, 5 ] ]
+partition(op.gt(5), [8,3,4,5,6]); // [ [ 8, 6 ], [ 3, 4, 5 ] ]
 ````
 
 ### $.all(fn) -> (xs -> Boolean)
@@ -65,7 +65,7 @@ An accessor for Array.prototype.every, but with the function curried.
 An accessor for Array.prototype.some, but with the function curried.
 
 ````javascript
-$.any($.gt(2))([1,2,3]); // true
+$.any(op.gt(2))([1,2,3]); // true
 [[3,4,5], [4,5,6]].filter($.any($.elem([6, 7]))); // [ [ 4, 5, 6 ] ]
 ````
 
@@ -82,8 +82,17 @@ The membership tests are accessors for `Array.prototype.indexOf`, but with the a
 [1,2,3,4,3].filter($.notElem([1,3])); // [ 2, 4 ]
 ````
 
+### $.extend(target, source) :: target
+Copies the keys of source to target.
+
+````
+var defaults = {useBlimp : false, noFire: true}
+var config = {useBlimp: true}
+$.extend(defaults, config); // {useBlimp: true, noFire: true}
+````
+
 ## Math
-All Math functions operate purely on Number instances, and `gcd` & `lcm` in particular are only well-defined for integers.
+Helpers for Integers.
 
 ### $.gcd(a, b) :: Int
 Returns the greatest common divisor (aka highest common factor) of two Integers.
@@ -109,24 +118,6 @@ $.even(5); // false
 $.odd(5); // true
 [1,2,3,4,5,6].filter($.even); // [ 2, 4, 6 ]
 ````
-
-### $.pow(exp) :: (x -> Number)
-An accessor for `Math.pow`, but with exponent curried.
-
-````javascript
-[1,2,3,4].map($.pow(2)); // [ 1, 4, 9, 16 ]
-````
-
-### $.logBase(base) :: (x -> Number)
-An accessor for `Math.log`, but currying the base converted to
-(dividing with `Math.log(base)`). `$.logBase(Math.E)` is equivalent to `Math.log`.
-
-````javascript
-[16,8,4,2].map($.logBase(2)); // [ 4, 3, 2, 1 ]
-````
-
-### $.log2 :: (x -> Number)
-Shortcut for `$.logBase(2)`.
 
 ## Property Accessors
 These are shortcut functions for extracting a property of an element. Since this is easier natuarlly to do for one element by using the dot operator, the use of these functions are primarily for mass extraction via `Array.prototype.map`.
@@ -175,7 +166,7 @@ Finds the last element `x` in `xs` for which `fn(x)` is true.
 
 ````javascript
 var ary = [{a:2}, {a:2, b:1}, {a:3}];
-var aEq2 = $.seq2($.get('a'), $.eq(2));
+var aEq2 = $.seq2($.get('a'), op.eq(2));
 $.firstBy(ary, aEq2); // {a:2}
 $.lastBy(ary, aEq2); // {a:2, b:1}
 $.last(ary); // {a:3}
@@ -184,11 +175,11 @@ $.last(ary); // {a:3}
 #### Accessors Note
 For all accessors; if a property is undefined on an element, undefined is returned. This also applies for `first`, `firstBy`, `last` and `lastBy` if the array is empty or no matches were found.
 
-To only get the defined values from a map of this style; filter by `$.neq()` or `$.neq(/*undefined*/)` to be explicit about what the inequality test tests against.
+To only get the defined values from a map of this style; filter by `op.neq()` or `op.neq(/*undefined*/)` to be explicit about what the inequality test tests against.
 
 ````javascript
 [{a:5}, {}].map($.get('a')); // [ 5, undefined ]
-[{a:5}, {}].map($.get('a')).filter($.neq()); // [ 5 ]
+[{a:5}, {}].map($.get('a')).filter(op.neq()); // [ 5 ]
 ````
 
 ##  Looping Constructs
@@ -214,7 +205,7 @@ $.replicate(5, 2); // [ 2, 2, 2, 2, 2 ]
 ````
 
 ### $.zip(xs, ys [, zs [, ..]]) :: ls
-zip takes n arrays and returns an array of n length arrays by joining the input arrays on index.
+zip takes n arrays and returns an array$. of n length arrays by joining the input arrays on index.
 If any input array is short, excess elements of the longer arrays are discarded.
 
 ````javascript
@@ -225,27 +216,11 @@ $.zip($.range(5), [1,2], [3,2,5]); // [ [1,1,3], [2,2,2] ]
 ### $.zipWith(fn, xs, ys [, zs [, ..]]) :: ls
 Same as `zip`, but applies each result array to `fn`, and collects these results.
 
-zipWith generalises zip by zipping with the function given as the first argument, instead of a collecting the elements. For example, $.zipWith($.plus2, xs, ys) is applied to two arrays to produce
-the array of corresponding sums.
+zipWith generalises zip by zipping with the function given as the first argument, instead of a collecting the elements. For example, $.zipWith(op.plus2, xs, ys) is applied to two arrays to produce the array of corresponding sums.
 
 ````javascript
-$.zipWith($.plus2, [1,1,1], $.range(5)); // [ 2, 3, 4 ]
-$.zipWith($.multiply, [2,2,2], [1,0,1], [1,2,3]); // [ 2, 0, 6 ]
-````
-
-zipWith can also be used for fusing arrays:
-
-````
-var vals = ["Peter", "Bam", "Jo"];
-var items = [{id:1}, {id:2}, {id:3}];
-var nameSetter = function (el, value) {
-  el.name = value;
-};
-$.zipWith(nameSetter, items, vals);
-items;
-// [ { id: 1, name: 'Peter' },
-//   { id: 2, name: 'Bam' },
-//   { id: 3, name: 'Jo' } ]
+$.zipWith(op.plus2, [1,1,1], $.range(5)); // [ 2, 3, 4 ]
+$.zipWith(op.multiply, [2,2,2], [1,0,1], [1,2,3]); // [ 2, 0, 6 ]
 ````
 
 ### $.iterate(len, x, fn) :: results
@@ -254,7 +229,7 @@ Returns a size `len` array of repeated applications of `fn` to `x`:
 `$.iterate(len, x, f) equals [x, f(x), f(f(x)), ...]`
 
 ````javascript
-$.iterate(3, "ha!", $.prepend("ha")); // [ 'ha!', 'haha!', 'hahaha!' ]
+$.iterate(3, "ha!", op.prepend("ha")); // [ 'ha!', 'haha!', 'hahaha!' ]
 
 // Fibonacci numbers
 var fibPairs = $.iterate(8, [0,1], function (x) {
@@ -272,8 +247,8 @@ Operationally equivalent to `xs.reduce(fn, start)`, but additionally collects al
 This does not use `Array.prototype.reduce` under the covers, so 3rd and 4th arguments will always be undefined inside `fn`.
 
 ````javascript
-[1,1,1,1].reduce($.plus2, 0); // 4
-$.scan([1,1,1,1], $.plus2, 0); // [ 0, 1, 2, 3, 4 ]
+[1,1,1,1].reduce(op.plus2, 0); // 4
+$.scan([1,1,1,1], op.plus2, 0); // [ 0, 1, 2, 3, 4 ]
 ````
 
 ## Curried Prototype Method Accessors
@@ -282,7 +257,7 @@ $.scan([1,1,1,1], $.plus2, 0); // [ 0, 1, 2, 3, 4 ]
 An accessor for `Array.prototype.map`, but with the function curried.
 
 ````javascript
-[[1,2], [3,4]].map($.map($.plus(1))); // [ [ 2, 3 ], [ 4, 5 ] ]
+[[1,2], [3,4]].map($.map(op.plus(1))); // [ [ 2, 3 ], [ 4, 5 ] ]
 ````
 
 ### $.filter(fn) :: (xs -> results)
@@ -292,9 +267,9 @@ An accessor for `Array.prototype.filter`, but with the function curried.
 An accessor for `Array.prototype.reduce`, but with the function curried.
 
 ````javascript
-// alternative implementations of operators' $.product and $.flatten :
-var product = $.reduce($.times2, 1);
-var flatten = $.reduce($.append2, []);
+// alternative implementations of operators' `product` and `flatten` :
+var product = $.reduce(op.times2, 1);
+var flatten = $.reduce(op.append2, []);
 ````
 
 ### $.invoke(method [, args..]) :: (x -> result)
@@ -311,7 +286,7 @@ Functional composition is done in sequential (rather than algebraic) order. The 
 Returns a function which will apply the passed in functions in sequential order.
 
 ````javascript
-var isPair = $.seq($.get('length'), $.eq(2)); // (xs -> Boolean)
+var isPair = $.seq($.get('length'), op.eq(2)); // (xs -> Boolean)
 [[1,3,2], [2], [], [2,1], [1,2]].filter(isPair); // [ [ 2, 1 ], [ 1, 2 ] ]
 ````
 
