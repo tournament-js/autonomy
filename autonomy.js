@@ -217,8 +217,8 @@ $.iterate = function (times, init, fn) {
   return result;
 };
 
-$.scan = function (xs, fn, initial) {
-  var result = [initial];
+$.scan = function (xs, init, fn) {
+  var result = [init];
   for (var i = 0, len = xs.length ; i < len; i += 1) {
     result.push(fn(result[i], xs[i]));
   }
@@ -228,9 +228,9 @@ $.scan = function (xs, fn, initial) {
 // ---------------------------------------------
 // Curried Prototype Accessors
 // ---------------------------------------------
-$.reduce = function (fn, initial) {
+$.reduce = function (fn, init) {
   return function (xs) {
-    return xs.reduce(fn, initial);
+    return xs.reduce(fn, init);
   };
 };
 

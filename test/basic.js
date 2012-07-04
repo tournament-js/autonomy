@@ -33,8 +33,8 @@ test("looping constructs", function (t) {
   t.deepEqual($.replicate(0, 5), [], "replicate 0 5");
   t.equal($.replicate(100, 5).length, 100, "replicate 100 x has length 100");
 
-  t.deepEqual($.scan([1,1,1], op.plus2, 5), [5,6,7,8],"scan add 5 [1,1,1] === [5,6,7,8]");
-  t.deepEqual($.iterate(5, 2, op.times(2)), [2,4,8,16,32], "iterate (*2)");
+  t.deepEqual($.scan([1,1,1], 5, op.plus2), [5,6,7,8],"scan 5 add [1,1,1] === [5,6,7,8]");
+  t.deepEqual($.iterate(4, 5, op.plus(1)), [5,6,7,8], "iterate 3x (+1)");
 
   t.equal($.reduce(op.plus2, 5)([1,1,1]), 8, "reduce add 5 + 1+1+1 === 8");
 

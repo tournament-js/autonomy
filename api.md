@@ -126,9 +126,10 @@ These are shortcut functions for extracting a property of an element. Since this
 Allows simple property extraction on an element:
 
 ````javascript
-var objs = [{id: 1, s: "h"}, {id: 2, s: "e"}, {id: 3, s: "y"}];
-objs.map($.get('id')); // [ 1, 2, 3 ]
+var objs = [{s: "h"}, {s: "e"}, {s: "y"}];
 objs.map($.get('s')).join(''); // 'hey'
+
+var isFieldPos = $.seq2($.get('field'), op.gt(0))
 ````
 
 ### $.getDeep(props) :: (el -> el[p1][..][pN])
@@ -136,9 +137,9 @@ Allows property extraction from more than one level down, via a `.` delimited st
 
 ````javascript
 var objs = [
-  {id: 1, s: "h", obj: {ary: [1,2]} }
-, {id: 2, s: "e", obj: {ary: [3,4]} }
-, {id: 3, s: "y", obj: {ary: [5,6]} }
+  {obj: {ary: [1,2]} }
+, {obj: {ary: [3,4]} }
+, {obj: {ary: [5,6]} }
 ];
 objs.map($.get('obj.ary.1')); // [ 2, 4, 6 ]
 ````
@@ -223,10 +224,10 @@ $.zipWith(op.plus2, [1,1,1], $.range(5)); // [ 2, 3, 4 ]
 $.zipWith(op.multiply, [2,2,2], [1,0,1], [1,2,3]); // [ 2, 0, 6 ]
 ````
 
-### $.iterate(len, x, fn) :: results
-Returns a size `len` array of repeated applications of `fn` to `x`:
+### $.iterate(times, init, fn) :: results
+Returns a size `times` array of repeated applications of `fn` to `init`:
 
-`$.iterate(len, x, f) equals [x, f(x), f(f(x)), ...]`
+`$.iterate(times, x, f) equals [x, f(x), f(f(x)), ...]`
 
 ````javascript
 $.iterate(3, "ha!", op.prepend("ha")); // [ 'ha!', 'haha!', 'hahaha!' ]
@@ -239,16 +240,18 @@ $.pluck(0, fibPairs);
 // [ 0, 1, 1, 2, 3, 5, 8, 13 ]
 ````
 
-### $.scan(xs, fn, start) :: results
+### $.scan(xs, init, fn) :: results
 Operationally equivalent to `xs.reduce(fn, start)`, but additionally collects all the intermediate results. Thus:
 
-`scan(fn, z, [x1, x2, ...]) equals [z, f(z, x1), f(f(z, x1), x2), ...]`
+`scan([x1, x2, ...], z, f) equals [z, f(z, x1), f(f(z, x1), x2), ...]`
 
-This does not use `Array.prototype.reduce` under the covers, so 3rd and 4th arguments will always be undefined inside `fn`.
+so the length of the output is `xs.length + 1`:
 
 ````javascript
-[1,1,1,1].reduce(op.plus2, 0); // 4
-$.scan([1,1,1,1], op.plus2, 0); // [ 0, 1, 2, 3, 4 ]
+[1,2,3,4].reduce(op.plus2, 0); // 10
+$.scan([1,2,3,4], 0, op.plus2); // [ 0, 1, 3, 6, 10 ]
+$.scan([1,1,1,1], 0, op.plus2); //[ 0, 1, 2, 3 ,4 ]
+$.iterate(4, 0, op.plus2); // [ 0, 1, 2, 3, 4 ]
 ````
 
 ## Curried Prototype Method Accessors
@@ -272,17 +275,23 @@ var product = $.reduce(op.times2, 1);
 var flatten = $.reduce(op.append2, []);
 ````
 
-### $.invoke(method [, args..]) :: (x -> result)
-An accessor for any method on the prototype of the type of `x`.
+### $.invoke(methodName [, args..]) :: (x -> result)
+An accessor for any method on the prototype of `x`.
 
 ````javascript
 [[1,2], [3,4]].map($.invoke('join','w')); // [ '1w2', '3w4' ]
+
+["Hello", "World"].map($.invoke('slice', 1)); // [ 'ello', 'orld' ]
+
+var xs = [[1,2], [3,4]]
+xs.forEach($.invoke('pop'));
+xs; // [ [ 1 ], [ 3 ] ]
 ````
 
 ## Functional Composition
 Functional composition is done in sequential (rather than algebraic) order. The reasoning for this is there is no real benefit of listing the functions in the reverse order of execution in JavaScript. The difference is still highlighted by naming it `seq` for _sequence_, rather than the slightly more traditional _compose_.
 
-### $.seq(f [, g [, ..]]) :: (args.. -> ..(g(f(args..))))
+### $.seq(f [, g [, ..]]) :: (args.. -> ..(g(f(args..))) )
 Returns a function which will apply the passed in functions in sequential order.
 
 ````javascript
