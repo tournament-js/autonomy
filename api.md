@@ -286,6 +286,9 @@ An accessor for any method on the prototype of `x`.
 var xs = [[1,2], [3,4]]
 xs.forEach($.invoke('pop'));
 xs; // [ [ 1 ], [ 3 ] ]
+
+[f, g, h].map($.invoke('apply', this, arguments));
+// [ result of f, result of g, result of h ]
 ````
 
 ## Functional Composition
