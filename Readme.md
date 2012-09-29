@@ -7,9 +7,9 @@ These library is partly inspired by Haskell's [Prelude](http://www.haskell.org/g
 ## Usage
 Attach it to the short variable of choice:
 
-````javascript
+```js
 var $ = require('autonomy');
-````
+```
 
 and get functional:
 
@@ -37,7 +37,7 @@ $.iterate(3, "ha!", function (str) {
 }); // [ 'ha!', 'haha!', 'hahaha!' ]
 
 [[1,2], [3,4]].map($.invoke('join','w')); // [ '1w2', '3w4']
-````
+```
 
 Read the read the [API](https://github.com/clux/autonomy/blob/master/api.md).
 It could also be worth looking at the [operators](https://github.com/clux/operators) module, which provides some excellent functional helpers for this module.
@@ -46,22 +46,22 @@ Note this module can be gotten directly as is, or gotten via the larger utility 
 
 ## Installation
 
-````bash
+```bash
 $ npm install autonomy
-````
+```
 
 ## Running tests
 Install development dependencies
 
-````bash
+```bash
 $ npm install
-````
+```
 
 Run the tests
 
-````bash
+```bash
 $ npm test
-````
+```
 
 ## License
 MIT-Licensed. See LICENSE file for details.
