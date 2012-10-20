@@ -116,3 +116,19 @@ test("zipWith/zip", function (t) {
   t.deepEqual($.zip([1,3,5], [0,0,0], [2,4]), [[1,0,2], [3,0,4]], "zip 3 lists");
   t.end();
 });
+
+test("get", function (t) {
+  var objs = [
+     { a: {b: "abc", c: {d: {e: 1} } }, f: 1}
+   , { a: {b: "def", c: {d: {e: 2} } }, f: 1}
+   , { a: {b: "ghi", c: {d: {e: 3} } }, f: 1}
+   , { a: {b: "jkl", c: {d: {e: 4} } }, f: 1}
+ ];
+
+ t.deepEqual(objs.map($.get('f')), [1,1,1,1], "get 1 level deep");
+ t.equal(objs.map($.get('a', 'b')).join(''), "abcdefghijkl", "get 2 levels deep");
+ t.equal(objs.map($.get('a', 'c', 'd', 'e')).join(''), "1234", "get 4 levels deep");
+ t.deepEqual(objs.map($.get('a', 'c', 'ZZ', 'AA')).filter(op.neq()), [], "harvest deep undefs");
+ t.deepEqual(objs.map($.get('ZZ', 'AA')).filter(op.neq()), [], "harvest shallow undefs");
+ t.end();
+});

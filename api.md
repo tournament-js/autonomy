@@ -111,12 +111,15 @@ $.odd(5); // true
 ## Property Accessors
 These are shortcut functions for extracting a property of an element. Since this is easier natuarlly to do for one element by using the dot operator, the use of these functions are primarily for mass extraction via `Array.prototype.map`.
 
-### $.get(prop) :: (el -> el[prop])
-Allows simple property extraction on an element:
+### $.get(prop [, prop2 [, prop3 [, ..]]]) :: (el -> el[prop] .. [propN])
+Allows simple property extraction on an element for maps.
 
 ```js
-var objs = [{s: "h"}, {s: "e"}, {s: "y"}];
+var objs = [{s: "h"}, {s: "e", obj: {hi: 42}}, {s: "y"}];
 objs.map($.get('s')).join(''); // 'hey'
+
+// if undefined keys, undefined is returned in maps
+objs.map($.get('obj', 'hi')).filter(op.neq(undefined)); // [ 42 ]
 
 var isFieldPos = $.seq2($.get('field'), op.gt(0))
 ```

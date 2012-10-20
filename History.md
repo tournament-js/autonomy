@@ -1,3 +1,7 @@
+0.4.2 / 2012-10-20
+==================
+  * `get` is now variadic and can do what `getDeep` could
+
 0.4.1 / 2012-10-20
 ==================
   * `replicate` has been reinstated with an Array safe version

@@ -92,9 +92,14 @@ $.odd = function (n) {
 // ---------------------------------------------
 // Property accessors
 // ---------------------------------------------
-$.get = function (prop) {
+$.get = function () {
+  var args = arguments;
   return function (el) {
-    return el[prop];
+    var res = el;
+    for (var i = 0; i < args.length && res !== undefined; i += 1) {
+      res = res[args[i]];
+    }
+    return res;
   };
 };
 
