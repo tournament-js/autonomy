@@ -40,9 +40,10 @@ $.iterate(3, "ha!", function (str) {
 ```
 
 Read the read the [API](https://github.com/clux/autonomy/blob/master/api.md).
-In most cases the [operators](https://github.com/clux/operators) module provides some must have additions to [autonomy]. It's referenced once above as `op`, and you can just do `$.extend($, require('operators'))` to import all the helpers onto autonomy's object.
 
-NB: This modules makes up the core part of the larger utility library: [interlude](https://github.com/clux/interlude). If you find yourself extending with [operators] or [subset] a lot, you should use [interlude] instead (there's also more documentation there).
+In most cases the [operators](https://github.com/clux/operators) module provides some must have additions to autonomy. It's referenced once above as `op`, and you can just do `$.extend($, require('operators'))` to import all the helpers onto autonomy's object.
+
+*This modules makes up the core part of the larger utility library*: [interlude](https://github.com/clux/interlude). If you find yourself extending with `operators` or `subset` a lot, you should use `interlude` instead (there's also more documentation included there).
 
 ## Installation
 
