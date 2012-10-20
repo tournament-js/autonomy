@@ -27,6 +27,16 @@ test("looping constructs", function (t) {
   t.deepEqual($.range(1,5,2), [1,3,5], "range step inclusive");
   t.deepEqual($.range(1,6,2), [1,3,5], "range step inclusive");
 
+  t.deepEqual($.replicate(5, 2), [ 2, 2, 2, 2, 2 ], "replicate 5x2");
+  t.deepEqual($.replicate(3, []), [ [], [], [] ], "replicate 3x[]");
+
+  var a = [1];
+  var b = $.replicate(2, a);
+  a.push(2); // should not affect b as replicate shallow copies arrays
+  t.deepEqual(b, [ [1], [1] ], "replicate shallow copies arrays");
+
+  t.equal($.replicate(5).filter(op.eq(undefined)).length, 5, "replicate undef useful");
+
   t.deepEqual($.scan([1,1,1], 5, op.plus2), [5,6,7,8],"scan 5 add [1,1,1] === [5,6,7,8]");
   t.deepEqual($.iterate(4, 5, op.plus(1)), [5,6,7,8], "iterate 3x (+1)");
 

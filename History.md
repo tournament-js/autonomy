@@ -1,3 +1,7 @@
+0.4.1 / 2012-10-20
+==================
+  * `replicate` has been reinstated with an Array safe version
+
 0.4.0 / 2012-10-20
 ==================
   * `has` removed as `Object.create(null)` fills the void

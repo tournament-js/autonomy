@@ -148,6 +148,14 @@ $.range = function (start, stop, step) {
   return range;
 };
 
+$.replicate = function (times, el) {
+  var res = [];
+  for (var i = 0; i < times; i += 1) {
+    res.push(Array.isArray(el) ? el.slice() : el);
+  }
+  return res;
+};
+
 $.zipWith = function () {
   var fn = arguments[0]
     , args = slice.call(arguments, 1)

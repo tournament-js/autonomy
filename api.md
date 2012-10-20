@@ -175,6 +175,26 @@ $.range(1, 6, 2); // [ 1, 3, 5 ]
 $.range(0, 6, 2); // [ 0, 2, 4, 6 ]
 ```
 
+
+-### $.replicate(n, x)
+Returns an `n` length Array with the element `x` at every position.
+
+NB: Will shallow clone arrays, but insert the same object by reference.
+
+```js
+$.replicate(5, 2); // [ 2, 2, 2, 2, 2 ]
+
+$.replicate(3, []); // [ [], [], [] ]
+
+var a = [1];
+var b = $.replicate(2, a);
+a.push(2); // wont affect b as replicate shallow copies arrays
+b; // [ [1], [1] ]
+
+// call cluster.fork 5 times in map without passing accidental arguments
+$.replicate(5).map(cluster.fork); // maps undefined -> cluster.fork
+```
+
 ### $.zip(xs, ys [, zs [, ..]]) :: ls
 zip takes n arrays and returns an array$. of n length arrays by joining the input arrays on index.
 If any input array is short, excess elements of the longer arrays are discarded.
