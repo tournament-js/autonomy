@@ -30,17 +30,6 @@ Returns the constant function f(y) = x.
 [1,3,2].map($.constant(5)); // [5, 5, 5]
 ```
 
-### $.has(obj, key) :: Boolean
-Safe call to Object.prototype.hasOwnProperty. This is not meant to facilitate using an
-[object as a hash](http://www.devthought.com/2012/01/18/an-object-is-not-a-hash/). `Object.create(null)` is your friend.
-
-```js
-$.has({a: 1, b: 2, c: 3}, "b"); // true
-var a = {};
-!!a.toString; // true
-$.has(a, "toString"); // false
-```
-
 ### $.not(fn) :: (x -> Boolean)
 Returns a function which negates `fn` results.
 Sometimes useful for composing certain functions.
@@ -132,18 +121,6 @@ objs.map($.get('s')).join(''); // 'hey'
 var isFieldPos = $.seq2($.get('field'), op.gt(0))
 ```
 
-### $.getDeep(props) :: (el -> el[p1][..][pN])
-Allows property extraction from more than one level down, via a `.` delimited string of property names:
-
-```js
-var objs = [
-  {obj: {ary: [1,2]} }
-, {obj: {ary: [3,4]} }
-, {obj: {ary: [5,6]} }
-];
-objs.map($.get('obj.ary.1')); // [ 2, 4, 6 ]
-```
-
 ### $.pluck(prop, xs) :: ys
 Shorthand for of a common use-case for `Array.prototype.map`; extracting simple (not deeply nested) property values.
 
@@ -176,7 +153,7 @@ $.last(ary); // {a:3}
 #### Accessors Note
 For all accessors; if a property is undefined on an element, undefined is returned. This also applies for `first`, `firstBy`, `last` and `lastBy` if the array is empty or no matches were found.
 
-To only get the defined values from a map of this style; filter by `op.neq()` or `op.neq(/*undefined*/)` to be explicit about what the inequality test tests against.
+To only get the defined values from a map of this style; filter by `op.neq()` or `op.neq(undefined)` to be explicit about what the inequality test tests against.
 
 ```js
 [{a:5}, {}].map($.get('a')); // [ 5, undefined ]
@@ -196,14 +173,6 @@ $.range(5); // [ 1, 2, 3, 4, 5 ]
 $.range(0, 4); // [ 0 , 1, 2, 3, 4 ]
 $.range(1, 6, 2); // [ 1, 3, 5 ]
 $.range(0, 6, 2); // [ 0, 2, 4, 6 ]
-```
-
-### $.replicate(n, x)
-Returns an `n` length Array with the element `x` at every position.
-NB: Does not clone arrays or objects.
-
-```js
-$.replicate(5, 2); // [ 2, 2, 2, 2, 2 ]
 ```
 
 ### $.zip(xs, ys [, zs [, ..]]) :: ls
@@ -302,13 +271,3 @@ Returns a function which will apply the passed in functions in sequential order.
 var isPair = $.seq($.get('length'), op.eq(2)); // (xs -> Boolean)
 [[1,3,2], [2], [], [2,1], [1,2]].filter(isPair); // [ [ 2, 1 ], [ 1, 2 ] ]
 ```
-
-This is the very general, doubly variadic version of the more common use case versions
-below.
-
-### $.seq2(f, g) :: (x, y, z, w) -> g(f(x, y, z, w))
-### $.seq3(f, g, h) :: (x, y, z, w) -> h(g(f(x, y, z, w)))
-### $.seq4(f, g, h, k) :: (x, y, z, w) -> k(h(g(f(x, y, z, w))))
-These specific shortcut functions are there to speed up the most common use cases of functional composition; a few functions with a few initial arguments.
-
-The speed of composing functions is in general not significant, but a [factor of two](http://jsperf.com/crazyfunctional8) for just specifying the number of functions is a worthy tradeoff.

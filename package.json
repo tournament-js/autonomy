@@ -24,7 +24,7 @@
   "dependencies": {},
   "devDependencies": {
     "operators": "latest",
-    "tap": "~0.2.5"
+    "tap": "~0.3.1"
   },
   "optionalDependencies": {},
   "engines": {

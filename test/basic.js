@@ -7,8 +7,6 @@ test('common', function (t) {
   t.equal($.id(10, 12), 10, "1-dim identity");
   t.equal($.noop(10), undefined, "noop");
   t.equal($.constant(5)(10), 5, "constant");
-  t.ok(!$.has({}, 'toString'), "{} $.has no (own) toString key");
-  t.ok($.has({wee:2}, 'wee'), "obj $.has its own fresh key");
   t.ok($.not($.constant(false)), "!false");
   t.deepEqual($.range(5).filter($.elem($.range(4))), $.range(4), "range/elem filter");
   t.deepEqual($.range(5).filter($.notElem($.range(4))), [5], "range/elem filter");
@@ -29,10 +27,6 @@ test("looping constructs", function (t) {
   t.deepEqual($.range(1,5,2), [1,3,5], "range step inclusive");
   t.deepEqual($.range(1,6,2), [1,3,5], "range step inclusive");
 
-  t.deepEqual($.replicate(3, 2), [2,2,2], "replicate 3 2");
-  t.deepEqual($.replicate(0, 5), [], "replicate 0 5");
-  t.equal($.replicate(100, 5).length, 100, "replicate 100 x has length 100");
-
   t.deepEqual($.scan([1,1,1], 5, op.plus2), [5,6,7,8],"scan 5 add [1,1,1] === [5,6,7,8]");
   t.deepEqual($.iterate(4, 5, op.plus(1)), [5,6,7,8], "iterate 3x (+1)");
 
@@ -45,21 +39,18 @@ test("looping constructs", function (t) {
 });
 
 test("composition", function (t) {
-  t.equal($.seq3(op.plus2, op.plus(5), op.times(2))(3,4), 24, "seq3 fns");
   t.equal($.seq(op.plus2, op.plus(5), op.times(2))(3,4), 24, "seq fns");
 
   var res = $.seq(op.plus4, op.plus(1), op.plus(1), op.plus(1))(1,1,1,1);
   t.equal(res, 7, "(1+1+1+1) +1 +1 +1");
 
-  var res = $.seq4(op.plus4, op.plus(1), op.plus(1), op.plus(1))(1,1,1,1);
-  t.equal(res, 7, "(1+1+1+1) +1 +1 +1 (but seq4)");
   t.end();
 });
 
 test("accessors", function (t) {
   // first/last
   var ary = [{a:1}, {a:2}, {a:2, b:1}, {a:3}];
-  var aEq2 = $.seq2($.get('a'), op.eq(2));
+  var aEq2 = $.seq($.get('a'), op.eq(2));
   t.deepEqual($.first(ary), {a:1}, "first");
   t.deepEqual($.last(ary), {a:3}, "last");
   t.deepEqual($.last([]), undefined, "last of empty");
@@ -86,7 +77,6 @@ test("accessors", function (t) {
   , {id: 2, s: "e", obj: {ary: [3,4]} }
   , {id: 3, s: "y", obj: {ary: [5,6]} }
   ];
-  t.deepEqual(objs.map($.getDeep('obj.ary.1')), [ 2, 4, 6 ], "deep get on objs.obj.ary.1");
 
   t.deepEqual([[1],[2],[3]].map($.get(0)), [1,2,3], "ary.map($.get(0))");
 
@@ -96,7 +86,7 @@ test("accessors", function (t) {
 
   // first/last
   var ary = [{a:1}, {a:2}, {a:2, b:1}, {a:3}];
-  var aEq2 = $.seq2($.get('a'), op.eq(2))
+  var aEq2 = $.seq($.get('a'), op.eq(2))
   t.deepEqual($.first(ary), {a:1}, "first");
   t.deepEqual($.last(ary), {a:3}, "last");
   t.deepEqual($.last([]), undefined, "last of empty");

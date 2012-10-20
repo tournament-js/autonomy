@@ -18,10 +18,6 @@ $.constant = function (val) {
   };
 };
 
-$.has = function (obj, key) {
-  return hasOwnProp.call(obj, key);
-};
-
 $.not = function (fn) {
   return function (x) {
     return !fn(x);
@@ -102,21 +98,6 @@ $.get = function (prop) {
   };
 };
 
-$.getDeep = function (str) {
-  var props = str.split('.')
-    , len = props.length;
-  return function (el) {
-    var pos = el;
-    for (var i = 0; i < len; i += 1) {
-      pos = pos[props[i]];
-      if (pos === undefined) {
-        return;
-      }
-    }
-    return pos;
-  };
-};
-
 $.pluck = function (prop, xs) {
   var result = [];
   for (var i = 0, len = xs.length; i < len; i += 1) {
@@ -139,7 +120,6 @@ $.firstBy = function (fn, xs) {
       return xs[i];
     }
   }
-  return undefined;
 };
 
 $.lastBy = function (fn, xs) {
@@ -148,7 +128,6 @@ $.lastBy = function (fn, xs) {
       return xs[i];
     }
   }
-  return undefined;
 };
 
 // ---------------------------------------------
@@ -167,14 +146,6 @@ $.range = function (start, stop, step) {
     range[i] = start;
   }
   return range;
-};
-
-$.replicate = function (num, el) {
-  var result = [];
-  for (var i = 0; i < num; i += 1) {
-    result.push(el);
-  }
-  return result;
 };
 
 $.zipWith = function () {
@@ -265,24 +236,6 @@ $.seq = function () {
       res = fns[i](res);
     }
     return res;
-  };
-};
-
-$.seq2 = function (f, g) {
-  return function (x, y, z, w) {
-    return g(f(x, y, z, w));
-  };
-};
-
-$.seq3 = function (f, g, h) {
-  return function (x, y, z, w) {
-    return h(g(f(x, y, z, w)));
-  };
-};
-
-$.seq4 = function (f, g, h, k) {
-  return function (x, y, z, w) {
-    return k(h(g(f(x, y, z, w))));
   };
 };
 
