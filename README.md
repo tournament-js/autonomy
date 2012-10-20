@@ -30,7 +30,7 @@ $.gcd(10, 15); // 5
 $.range(5); // [ 1, 2, 3, 4, 5 ]
 
 $.zip($.range(5), [1,2], [3,2,5]); // [ [ 1, 1, 3 ], [ 2, 2, 2 ] ]
-$.zipWith($.plus2, [1,1,1], $.range(5)); // [ 2, 3, 4 ]
+$.zipWith(op.plus2, [1,1,1], $.range(5)); // [ 2, 3, 4 ]
 
 $.iterate(3, "ha!", function (str) {
   return "ha" + str
@@ -40,9 +40,9 @@ $.iterate(3, "ha!", function (str) {
 ```
 
 Read the read the [API](https://github.com/clux/autonomy/blob/master/api.md).
-It could also be worth looking at the [operators](https://github.com/clux/operators) module, which provides some excellent functional helpers for this module.
+In most cases the [operators](https://github.com/clux/operators) module provides some must have additions to [autonomy]. It's referenced once above as `op`, and you can just do `$.extend($, require('operators'))` to import all the helpers onto autonomy's object.
 
-Note this module can be gotten directly as is, or gotten via the larger utility library: [interlude](https://github.com/clux/interlude) for which it originally was made.
+NB: This modules makes up the core part of the larger utility library: [interlude](https://github.com/clux/interlude). If you find yourself extending with [operators] or [subset] a lot, you should use [interlude] instead (there's also more documentation there).
 
 ## Installation
 
