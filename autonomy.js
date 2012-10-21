@@ -1,6 +1,5 @@
 var $ = {}
-  , slice = Array.prototype.slice
-  , hasOwnProp = Object.prototype.hasOwnProperty;
+  , slice = Array.prototype.slice;
 
 // ---------------------------------------------
 // Functional Helpers
