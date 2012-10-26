@@ -5,6 +5,17 @@ This module is often bundled with [interlude](https://github.com/clux/interlude)
 
 Autonomy goes particularly well with the [operators](https://github.com/clux/operators) module. The [operators API](https://github.com/clux/operators/blob/master/api.md) should perhaps be skimmed to see what functions from there are used. Ultimately these are just simple shortcuts and are in this document assumed bound to the `op` object to illustrate how these go together.
 
+## Functional Composition
+Functional composition is done in sequential (rather than algebraic) order. The reasoning for this is there is no real benefit of listing the functions in the reverse order of execution in JavaScript. It is such a fundamental operation that it is available with the `$` function.
+
+### $(f [, g [, ..]]) :: (args.. -> ..(g(f(args..))) )
+Returns a function which will apply the passed in functions in sequential order.
+
+```js
+var isPair = $($.get('length'), op.eq(2)); // (xs -> Boolean)
+[[1,3,2], [2], [], [2,1], [1,2]].filter(isPair); // [ [ 2, 1 ], [ 1, 2 ] ]
+```
+
 ## Functional Helpers
 
 ### $.id(x) :: x
@@ -121,7 +132,7 @@ objs.map($.get('s')).join(''); // 'hey'
 // if undefined keys, undefined is returned in maps
 objs.map($.get('obj', 'hi')).filter(op.neq(undefined)); // [ 42 ]
 
-var isFieldPos = $.seq2($.get('field'), op.gt(0))
+var isFieldPos = $($.get('field'), op.gt(0))
 ```
 
 ### $.pluck(prop, xs) :: ys
@@ -147,7 +158,7 @@ Finds the last element `x` in `xs` for which `fn(x)` is true.
 
 ```js
 var ary = [{a:2}, {a:2, b:1}, {a:3}];
-var aEq2 = $.seq2($.get('a'), op.eq(2));
+var aEq2 = $($.get('a'), op.eq(2));
 $.firstBy(ary, aEq2); // {a:2}
 $.lastBy(ary, aEq2); // {a:2, b:1}
 $.last(ary); // {a:3}
@@ -282,15 +293,4 @@ xs; // [ [ 1 ], [ 3 ] ]
 
 [f, g, h].map($.invoke('apply', this, arguments));
 // [ result of f, result of g, result of h ]
-```
-
-## Functional Composition
-Functional composition is done in sequential (rather than algebraic) order. The reasoning for this is there is no real benefit of listing the functions in the reverse order of execution in JavaScript. The difference is still highlighted by naming it `seq` for _sequence_, rather than the slightly more traditional _compose_.
-
-### $.seq(f [, g [, ..]]) :: (args.. -> ..(g(f(args..))) )
-Returns a function which will apply the passed in functions in sequential order.
-
-```js
-var isPair = $.seq($.get('length'), op.eq(2)); // (xs -> Boolean)
-[[1,3,2], [2], [], [2,1], [1,2]].filter(isPair); // [ [ 2, 1 ], [ 1, 2 ] ]
 ```

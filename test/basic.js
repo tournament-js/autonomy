@@ -49,9 +49,9 @@ test("looping constructs", function (t) {
 });
 
 test("composition", function (t) {
-  t.equal($.seq(op.plus2, op.plus(5), op.times(2))(3,4), 24, "seq fns");
+  t.equal($(op.plus2, op.plus(5), op.times(2))(3,4), 24, "seq fns");
 
-  var res = $.seq(op.plus4, op.plus(1), op.plus(1), op.plus(1))(1,1,1,1);
+  var res = $(op.plus4, op.plus(1), op.plus(1), op.plus(1))(1,1,1,1);
   t.equal(res, 7, "(1+1+1+1) +1 +1 +1");
 
   t.end();
@@ -60,7 +60,7 @@ test("composition", function (t) {
 test("accessors", function (t) {
   // first/last
   var ary = [{a:1}, {a:2}, {a:2, b:1}, {a:3}];
-  var aEq2 = $.seq($.get('a'), op.eq(2));
+  var aEq2 = $($.get('a'), op.eq(2));
   t.deepEqual($.first(ary), {a:1}, "first");
   t.deepEqual($.last(ary), {a:3}, "last");
   t.deepEqual($.last([]), undefined, "last of empty");
@@ -96,7 +96,7 @@ test("accessors", function (t) {
 
   // first/last
   var ary = [{a:1}, {a:2}, {a:2, b:1}, {a:3}];
-  var aEq2 = $.seq($.get('a'), op.eq(2))
+  var aEq2 = $($.get('a'), op.eq(2))
   t.deepEqual($.first(ary), {a:1}, "first");
   t.deepEqual($.last(ary), {a:3}, "last");
   t.deepEqual($.last([]), undefined, "last of empty");

@@ -1,5 +1,21 @@
-var $ = {}
-  , slice = Array.prototype.slice;
+var slice = Array.prototype.slice;
+
+// ---------------------------------------------
+// Functional Sequencing is default function
+// ---------------------------------------------
+var seq = function () {
+  var fns = arguments;
+  return function () {
+    var res = fns[0].apply(this, arguments);
+    for (var i = 1, len = fns.length; i < len; i += 1) {
+      res = fns[i](res);
+    }
+    return res;
+  };
+};
+
+var $ = seq;
+$.seq = seq; // backwards compat
 
 // ---------------------------------------------
 // Functional Helpers
@@ -144,7 +160,7 @@ $.range = function (start, stop, step) {
   }
   step = arguments[2] || 1;
   var len = Math.max(Math.ceil((stop - start + 1) / step), 0)
-    , range = Array(len);
+    , range = new Array(len);
 
   for (var i = 0; i < len; i += 1, start += step) {
     range[i] = start;
@@ -234,20 +250,6 @@ $.invoke = function (method) {
   return function (xs) {
     var fn = xs[method];
     return fn.apply(xs, args);
-  };
-};
-
-// ---------------------------------------------
-// Functional Sequencing (Composition)
-// ---------------------------------------------
-$.seq = function () {
-  var fns = arguments;
-  return function () {
-    var res = fns[0].apply(this, arguments);
-    for (var i = 1, len = fns.length; i < len; i += 1) {
-      res = fns[i](res);
-    }
-    return res;
   };
 };
 
