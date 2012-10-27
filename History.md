@@ -1,3 +1,7 @@
+0.5.0 / ?
+==================
+  * `$(..fns)` now calls `$.seq`
+
 0.4.2 / 2012-10-20
 ==================
   * `get` is now variadic and can do what `getDeep` could
