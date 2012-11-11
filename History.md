@@ -1,6 +1,7 @@
-0.5.0 / ?
+0.5.0 / 2012-11-11
 ==================
   * `$(..fns)` now calls `$.seq`
+  * `$.seq` still maintained for backwards compatibility in interlude for now.
 
 0.4.2 / 2012-10-20
 ==================
