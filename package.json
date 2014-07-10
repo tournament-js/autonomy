@@ -2,7 +2,7 @@
   "author": "Eirik Albrigtsen <analsandblaster@gmail.com>",
   "name": "autonomy",
   "description": "Lightweight functional utility library complementing ES5",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "stability": "stable",
   "repository": {
     "type": "git",
