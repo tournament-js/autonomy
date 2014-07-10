@@ -5,9 +5,19 @@ exports.common = function (t) {
   t.equal($.id(10, 12), 10, "1-dim identity");
   t.equal($.noop(10), undefined, "noop");
   t.equal($.constant(5)(10), 5, "constant");
+  t.ok($.even(4), 'even');
+  t.ok($.odd(5), 'odd');
   t.ok($.not($.constant(false)), "!false");
   t.deepEqual($.range(5).filter($.elem($.range(4))), $.range(4), "range/elem filter");
   t.deepEqual($.range(5).filter($.notElem($.range(4))), [5], "range/elem filter");
+  t.deepEqual([[1,2], [3,4]].map($.map(op.plus(1))), [ [2,3], [4,5] ], "map +1");
+  t.deepEqual($.filter($.not(op .gt(2)))([0,1,2,3,4]), [0,1,2], "filter not");
+  t.deepEqual(["Hello", "World"].map($.invoke('slice', 1)), ['ello', 'orld'], 'invoke slice');
+  t.deepEqual([[1,2], [3,4]].map($.invoke('join','w')), ['1w2', '3w4'], 'invoke join');
+  var trg = {b: 'boo'};
+  var src = {a: 'hi'};
+  t.deepEqual($.extend(trg, src), trg, 'extend modifies target');
+  t.deepEqual(trg, {a: 'hi', b: 'boo'}, 'extend');
   t.done();
 };
 
@@ -19,7 +29,7 @@ exports.math = function (t) {
   t.done();
 };
 
-exports.looping_constructs = function (t) {
+exports.loopingConstructs = function (t) {
   t.deepEqual($.range(1,5), $.range(5), "range 1 indexed");
   t.deepEqual($.range(5), [1,2,3,4,5], "range inclusive");
   t.deepEqual($.range(1,5,2), [1,3,5], "range step inclusive");
@@ -80,12 +90,6 @@ exports.accessors = function (t) {
   t.equal(objs.map($.get('s')).join(''), "hey", "map get s join === hey");
 
   // deep get
-  var objs = [
-    {id: 1, s: "h", obj: {ary: [1,2]} }
-  , {id: 2, s: "e", obj: {ary: [3,4]} }
-  , {id: 3, s: "y", obj: {ary: [5,6]} }
-  ];
-
   t.deepEqual([[1],[2],[3]].map($.get(0)), [1,2,3], "ary.map($.get(0))");
 
   // pluck
@@ -94,7 +98,7 @@ exports.accessors = function (t) {
 
   // first/last
   var ary = [{a:1}, {a:2}, {a:2, b:1}, {a:3}];
-  var aEq2 = $($.get('a'), op.eq(2))
+  var aEq2 = $($.get('a'), op.eq(2));
   t.deepEqual($.first(ary), {a:1}, "first");
   t.deepEqual($.last(ary), {a:3}, "last");
   t.deepEqual($.last([]), undefined, "last of empty");
@@ -117,16 +121,15 @@ exports.zippers = function (t) {
 
 exports.get = function (t) {
   var objs = [
-     { a: {b: "abc", c: {d: {e: 1} } }, f: 1}
-   , { a: {b: "def", c: {d: {e: 2} } }, f: 1}
-   , { a: {b: "ghi", c: {d: {e: 3} } }, f: 1}
-   , { a: {b: "jkl", c: {d: {e: 4} } }, f: 1}
- ];
-
- t.deepEqual(objs.map($.get('f')), [1,1,1,1], "get 1 level deep");
- t.equal(objs.map($.get('a', 'b')).join(''), "abcdefghijkl", "get 2 levels deep");
- t.equal(objs.map($.get('a', 'c', 'd', 'e')).join(''), "1234", "get 4 levels deep");
- t.deepEqual(objs.map($.get('a', 'c', 'ZZ', 'AA')).filter(op.neq()), [], "harvest deep undefs");
- t.deepEqual(objs.map($.get('ZZ', 'AA')).filter(op.neq()), [], "harvest shallow undefs");
- t.done();
+    { a: {b: "abc", c: {d: {e: 1} } }, f: 1},
+    { a: {b: "def", c: {d: {e: 2} } }, f: 1},
+    { a: {b: "ghi", c: {d: {e: 3} } }, f: 1},
+    { a: {b: "jkl", c: {d: {e: 4} } }, f: 1}
+  ];
+  t.deepEqual(objs.map($.get('f')), [1,1,1,1], "get 1 level deep");
+  t.equal(objs.map($.get('a', 'b')).join(''), "abcdefghijkl", "get 2 levels deep");
+  t.equal(objs.map($.get('a', 'c', 'd', 'e')).join(''), "1234", "get 4 levels deep");
+  t.deepEqual(objs.map($.get('a', 'c', 'ZZ', 'AA')).filter(op.neq()), [], "harvest deep undefs");
+  t.deepEqual(objs.map($.get('ZZ', 'AA')).filter(op.neq()), [], "harvest shallow undefs");
+  t.done();
 };
