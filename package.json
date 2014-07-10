@@ -3,6 +3,7 @@
   "name": "autonomy",
   "description": "Lightweight functional utility library complementing ES5",
   "version": "0.5.0",
+  "stability": "stable",
   "repository": {
     "type": "git",
     "url": "clux/autonomy"
@@ -17,14 +18,17 @@
     "FP",
     "ES5"
   ],
-  "main": "autonomy.js",
+  "main": "index.js",
   "scripts": {
-    "test": "tap ./test"
+    "test": "$(npm bin)/nodeunit --reporter=verbose test/*.js",
+    "coveralls": "$(npm bin)/jscoverage lib && AUTONOMY_COV=1 $(npm bin)/nodeunit --reporter=lcov test | $(npm bin)/coveralls"
   },
   "dependencies": {},
   "devDependencies": {
-    "operators": "latest",
-    "tap": "~0.4.4"
+    "nodeunit": "~0.9.0",
+    "jscoverage": "~0.5.4",
+    "coveralls": "~2.11.1",
+    "operators": "latest"
   },
   "license": "MIT"
 }

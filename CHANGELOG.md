@@ -1,3 +1,7 @@
+0.5.1 / 2014-07-10
+==================
+  * Better documentation and test coverage
+
 0.5.0 / 2012-11-11
 ==================
   * `$(..fns)` now calls `$.seq`

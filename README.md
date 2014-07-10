@@ -1,7 +1,9 @@
 # Autonomy
-[![Build Status](https://secure.travis-ci.org/clux/autonomy.png)](http://travis-ci.org/clux/autonomy)
-[![Dependency Status](https://david-dm.org/clux/autonomy.png)](https://david-dm.org/clux/autonomy)
-[![stable](http://hughsk.github.io/stability-badges/dist/stable.svg)](http://nodejs.org/api/documentation.html#documentation_stability_index)
+[![npm status](http://img.shields.io/npm/v/autonomy.svg)](https://www.npmjs.org/package/autonomy)
+[![build status](https://secure.travis-ci.org/clux/autonomy.svg)](http://travis-ci.org/clux/autonomy)
+[![dependency status](https://david-dm.org/clux/autonomy.svg)](https://david-dm.org/clux/autonomy)
+[![coverage status](http://img.shields.io/coveralls/clux/autonomy.svg)](https://coveralls.io/r/clux/autonomy)
+[![stable](http://img.shields.io/badge/stability-stable-74C614.svg)](http://nodejs.org/api/documentation.html#documentation_stability_index)
 
 Autonomy is a lightweight functional helper library. It is meant to complement an ES5 style with curried helpers, math helpers, curried accessors and higher order looping constructs.
 

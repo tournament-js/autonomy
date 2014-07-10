@@ -1,27 +1,25 @@
-var tap = require('tap')
-  , test = tap.test
-  , op = require('operators')
+var op = require('operators')
   , $ = require('../');
 
-test('common', function (t) {
+exports.common = function (t) {
   t.equal($.id(10, 12), 10, "1-dim identity");
   t.equal($.noop(10), undefined, "noop");
   t.equal($.constant(5)(10), 5, "constant");
   t.ok($.not($.constant(false)), "!false");
   t.deepEqual($.range(5).filter($.elem($.range(4))), $.range(4), "range/elem filter");
   t.deepEqual($.range(5).filter($.notElem($.range(4))), [5], "range/elem filter");
-  t.end();
-});
+  t.done();
+};
 
-test('math', function (t) {
+exports.math = function (t) {
   t.equal($.gcd(5, 3), 1, "primes 5,3 are coprime");
   t.equal($.gcd(21, 14), 7, "21 and 14 have 7 as gcd");
   t.equal($.lcm(5, 3), 15, "primes 5 and 3 have lcm as product");
   t.equal($.lcm(21, 14), 42, "21 and 14 have 42 as lcm");
-  t.end();
-});
+  t.done();
+};
 
-test("looping constructs", function (t) {
+exports.looping_constructs = function (t) {
   t.deepEqual($.range(1,5), $.range(5), "range 1 indexed");
   t.deepEqual($.range(5), [1,2,3,4,5], "range inclusive");
   t.deepEqual($.range(1,5,2), [1,3,5], "range step inclusive");
@@ -45,19 +43,19 @@ test("looping constructs", function (t) {
   t.deepEqual([[1,3,5],[2,3,1]].filter($.any(op.gte(5))), [[1,3,5]], "filter any gte");
   t.deepEqual([[1,3,5],[2,2,2]].filter($.all(op.eq(2))), [[2,2,2]], "filter all eq");
   t.deepEqual([[1,3,5],[2,2,2]].filter($.none(op.eq(2))), [[1,3,5]], "filter none eq");
-  t.end();
-});
+  t.done();
+};
 
-test("composition", function (t) {
+exports.composition = function (t) {
   t.equal($(op.plus2, op.plus(5), op.times(2))(3,4), 24, "seq fns");
 
   var res = $(op.plus4, op.plus(1), op.plus(1), op.plus(1))(1,1,1,1);
   t.equal(res, 7, "(1+1+1+1) +1 +1 +1");
 
-  t.end();
-});
+  t.done();
+};
 
-test("accessors", function (t) {
+exports.accessors = function (t) {
   // first/last
   var ary = [{a:1}, {a:2}, {a:2, b:1}, {a:3}];
   var aEq2 = $($.get('a'), op.eq(2));
@@ -106,18 +104,18 @@ test("accessors", function (t) {
 
   t.deepEqual($.firstBy(aEq2, ary), {a:2}, "firstBy aEq2");
   t.deepEqual($.lastBy(aEq2, ary), {a:2, b:1}, "lastBy aEq2");
-  t.end();
-});
+  t.done();
+};
 
-test("zipWith/zip", function (t) {
+exports.zippers = function (t) {
   t.deepEqual($.zipWith(op.plus2, [1,3,5], [2,4]), [3, 7], "zipWith plus2");
   t.deepEqual($.zipWith(op.add, [1,3,5], [0,0,0], [2,4]), [3, 7], "zipWith add");
   t.deepEqual($.zip([1,3,5], [2,4]), [[1,2], [3,4]], "zip 2 lists");
   t.deepEqual($.zip([1,3,5], [0,0,0], [2,4]), [[1,0,2], [3,0,4]], "zip 3 lists");
-  t.end();
-});
+  t.done();
+};
 
-test("get", function (t) {
+exports.get = function (t) {
   var objs = [
      { a: {b: "abc", c: {d: {e: 1} } }, f: 1}
    , { a: {b: "def", c: {d: {e: 2} } }, f: 1}
@@ -130,5 +128,5 @@ test("get", function (t) {
  t.equal(objs.map($.get('a', 'c', 'd', 'e')).join(''), "1234", "get 4 levels deep");
  t.deepEqual(objs.map($.get('a', 'c', 'ZZ', 'AA')).filter(op.neq()), [], "harvest deep undefs");
  t.deepEqual(objs.map($.get('ZZ', 'AA')).filter(op.neq()), [], "harvest shallow undefs");
- t.end();
-});
+ t.done();
+};
