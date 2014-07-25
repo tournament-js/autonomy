@@ -1,5 +1,5 @@
 var op = require('operators')
-  , $ = require('../');
+  , $ = require(process.env.AUTONOMY_COV ? '../autonomy-cov.js' : '../');
 
 exports.common = function (t) {
   t.equal($.id(10, 12), 10, "1-dim identity");
