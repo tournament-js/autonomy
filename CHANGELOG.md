@@ -1,3 +1,7 @@
+0.5.2 / 2014-09-02
+==================
+  * Move coverage to tests area to avoid confusing browserify
+
 0.5.1 / 2014-07-10
 ==================
   * Better documentation and test coverage
