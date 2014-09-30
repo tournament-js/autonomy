@@ -1,3 +1,9 @@
+1.0.0 / 2014-09-30
+==================
+  * Add `$.copy` to shallow copy an element
+  * `$.constant(n)` now uses `$.copy`
+  * `$.replicate(o)` now uses `$.copy` (thus will additionally copy objects)
+
 0.5.2 / 2014-09-02
 ==================
   * Move coverage to tests area to avoid confusing browserify

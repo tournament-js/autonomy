@@ -133,3 +133,29 @@ exports.get = function (t) {
   t.deepEqual(objs.map($.get('ZZ', 'AA')).filter(op.neq()), [], "harvest shallow undefs");
   t.done();
 };
+
+exports.constant = function (t) {
+  var o = {bah: 'woot'};
+  var fno = $.constant(o);
+  var ocpy = fno();
+  t.deepEqual(o, ocpy, 'constant copies properties');
+  ocpy.hi = 'there';
+  t.equal(o.hi, undefined, 'constant returns new copy of object');
+
+  var a = [1];
+  var fna = $.constant(a);
+  var acpy = fna();
+  t.deepEqual(acpy, a, 'constant copies array contents shallowly');
+  acpy.push(2);
+  t.equal(a.length, 1, 'constant slices arrays so leaves original unmodified');
+
+  // other types do not need copying as they are not returned by reference:
+  var s = "hi";
+  var fns = $.constant(s);
+  var scpy = fns();
+  t.equal(s, scpy, 'constant copies string');
+  scpy = 'bi';
+  t.equals(s, 'hi', 'we did not overwrite original');
+
+  t.done();
+};

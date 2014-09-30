@@ -27,9 +27,19 @@ $.id = function (x) {
 $.noop = function () {
 };
 
+$.copy = function (val) {
+  if (Array.isArray(val)) {
+    return val.slice();
+  }
+  if (val === Object(val)) {
+    return $.extend({}, val);
+  }
+  return val;
+};
+
 $.constant = function (val) {
   return function () {
-    return val;
+    return $.copy(val);
   };
 };
 
@@ -171,7 +181,7 @@ $.range = function (start, stop, step) {
 $.replicate = function (times, el) {
   var res = [];
   for (var i = 0; i < times; i += 1) {
-    res.push(Array.isArray(el) ? el.slice() : el);
+    res.push($.copy(el));
   }
   return res;
 };
