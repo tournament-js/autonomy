@@ -1,3 +1,7 @@
+1.0.1 / 2015-11-15
+==================
+  * Added `.npmignore`
+
 1.0.0 / 2014-09-30
 ==================
   * Add `$.copy` to shallow copy an element
