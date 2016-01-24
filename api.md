@@ -36,7 +36,7 @@ partition((x) => x > 5, [8,3,4,5,6]); // [ [ 8, 6 ], [ 3, 4, 5 ] ]
 An accessor for Array.prototype.every, but with the function curried.
 
 ```js
-[[3,4], [1,3], [2,3]].filter($.all($.elem([1, 3, 4]))); // [ [ 3, 4, 5 ] ]
+[[3,4], [1,3], [2,3]].filter($.all($.elem([1, 3, 4]))); // [ [ 3, 4 ], [ 1, 3 ] ]
 ```
 
 ### $.any(fn) -> (xs -> Boolean)
