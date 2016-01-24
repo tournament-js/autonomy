@@ -3,7 +3,7 @@ Autonomy exports basic functional helpers, looping constructs, functional sequen
 
 This module is often bundled with [interlude](https://github.com/clux/interlude), where extra functions exist on the imported object. This API will only mention functions existing in the interlude-less case.
 
-For simplicity all functions are denoted with a leading `$.` to indicate how you might use it with ES6 if you were to set `var $ = require('autonomy')`. If you are using ES7 modules, this can look simpler. But since this library is just a bunch of functions, it may be of value to see clearly which functions are actually exported.
+For simplicity all functions are denoted with a leading `$.` to indicate how you might use it with ES6 if you were to set `var $ = require('autonomy')`. If you are using ES7 modules, this can look simpler. That said, since this library is just a bunch of functions, it may be of value to see clearly which functions are actually exported herein anyway.
 
 ## Functional Helpers
 
