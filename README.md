@@ -8,6 +8,8 @@ Autonomy is a lightweight functional helper library. It is meant to complement a
 
 These library is partly inspired by Haskell's [Prelude](https://hackage.haskell.org/package/base/docs/Prelude.html), but its exports are optimized for JavaScript semantics and performance.
 
+This will start to look even more haskelly when the new module syntax pipes in and you can import what you need. But for now, enjoy your `$` spam.
+
 ## Usage
 Attach it to the short variable of choice:
 
