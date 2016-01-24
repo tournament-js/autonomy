@@ -31,7 +31,7 @@ var factorial = (n) => product(range(n));
 factorial(4); // 24
 ```
 
-Read the read the [API](https://github.com/clux/autonomy/blob/master/api.md). Note the API does not assume ES7 module syntax and will look less pretty.
+Read the read the [API](https://github.com/clux/autonomy/blob/master/api.md).
 
 *This modules makes up the core part of the larger utility library*: [interlude](https://github.com/clux/interlude). If you find yourself co-using `operators` or `subset`, you could use `interlude` instead (there's also more documentation included for interlude).
 
