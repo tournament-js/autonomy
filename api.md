@@ -278,19 +278,3 @@ An accessor for `Array.prototype.reduce`, but with the function curried.
 var product = $.reduce(op.times2, 1);
 var flatten = $.reduce(op.append2, []);
 ```
-
-### $.invoke(methodName [, args..]) :: (x -> result)
-An accessor for any method on the prototype of `x`.
-
-```js
-[[1,2], [3,4]].map($.invoke('join','w')); // [ '1w2', '3w4' ]
-
-["Hello", "World"].map($.invoke('slice', 1)); // [ 'ello', 'orld' ]
-
-var xs = [[1,2], [3,4]]
-xs.forEach($.invoke('pop'));
-xs; // [ [ 1 ], [ 3 ] ]
-
-[f, g, h].map($.invoke('apply', this, arguments));
-// [ result of f, result of g, result of h ]
-```

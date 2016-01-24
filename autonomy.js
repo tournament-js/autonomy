@@ -20,12 +20,8 @@ $.seq = seq; // backwards compat
 // ---------------------------------------------
 // Functional Helpers
 // ---------------------------------------------
-$.id = function (x) {
-  return x;
-};
-
-$.noop = function () {
-};
+$.id = (x) => x;
+$.noop = function () {};
 
 $.copy = function (val) {
   if (Array.isArray(val)) {
@@ -37,47 +33,13 @@ $.copy = function (val) {
   return val;
 };
 
-$.constant = function (val) {
-  return function () {
-    return $.copy(val);
-  };
-};
-
-$.not = function (fn) {
-  return function (x) {
-    return !fn(x);
-  };
-};
-
-$.all = function (fn) {
-  return function (xs) {
-    return xs.every(fn);
-  };
-};
-
-$.any = function (fn) {
-  return function (xs) {
-    return xs.some(fn);
-  };
-};
-
-$.none = function (fn) {
-  return function (xs) {
-    return !xs.some(fn);
-  };
-};
-
-$.elem = function (xs) {
-  return function (x) {
-    return xs.indexOf(x) >= 0;
-  };
-};
-
-$.notElem = function (xs) {
-  return function (x) {
-    return xs.indexOf(x) < 0;
-  };
-};
+$.constant = (val) => () => $.copy(val);
+$.not = (fn) => (x) => !fn(x);
+$.all = (fn) => (xs) => xs.every(fn);
+$.any = (fn) => (xs) => xs.some(fn);
+$.none = (fn) => (xs) => !xs.some(fn);
+$.elem = (xs) => (x) => xs.indexOf(x) >= 0;
+$.notElem = (xs) => (x) => xs.indexOf(x) < 0;
 
 $.extend = function (target, source) {
   var keys = Object.keys(source);
@@ -106,13 +68,8 @@ $.lcm = function (a, b) {
   return (!a || !b) ? 0 : Math.abs((a * b) / $.gcd(a, b));
 };
 
-$.even = function (n) {
-  return n % 2 === 0;
-};
-
-$.odd = function (n) {
-  return n % 2 === 1;
-};
+$.even = (n) => n % 2 === 0;
+$.odd = (n) => n % 2 === 1;
 
 // ---------------------------------------------
 // Property accessors
@@ -136,13 +93,8 @@ $.pluck = function (prop, xs) {
   return result;
 };
 
-$.first = function (xs) {
-  return xs[0];
-};
-
-$.last = function (xs) {
-  return xs[xs.length - 1];
-};
+$.first = (xs) => xs[0];
+$.last = (xs) => xs[xs.length - 1];
 
 $.firstBy = function (fn, xs) {
   for (var i = 0, len = xs.length; i < len; i += 1) {
@@ -163,28 +115,9 @@ $.lastBy = function (fn, xs) {
 // ---------------------------------------------
 // Higher order looping
 // ---------------------------------------------
-$.range = function (start, stop, step) {
-  if (arguments.length <= 1) {
-    stop = start;
-    start = 1;
-  }
-  step = arguments[2] || 1;
-  var len = Math.max(Math.ceil((stop - start + 1) / step), 0)
-    , range = new Array(len);
+$.range = (length) => Array.from({length}, (v, k) => k + 1);
+$.replicate = (length, el) => Array.from({length}, () => $.copy(el));
 
-  for (var i = 0; i < len; i += 1, start += step) {
-    range[i] = start;
-  }
-  return range;
-};
-
-$.replicate = function (times, el) {
-  var res = [];
-  for (var i = 0; i < times; i += 1) {
-    res.push($.copy(el));
-  }
-  return res;
-};
 
 $.zipWith = function () {
   var fn = arguments[0]
@@ -237,31 +170,9 @@ $.scan = function (xs, init, fn) {
 // ---------------------------------------------
 // Curried Prototype Accessors
 // ---------------------------------------------
-$.reduce = function (fn, init) {
-  return function (xs) {
-    return xs.reduce(fn, init);
-  };
-};
-
-$.map = function (fn) {
-  return function (xs) {
-    return xs.map(fn);
-  };
-};
-
-$.filter = function (fn) {
-  return function (xs) {
-    return xs.filter(fn);
-  };
-};
-
-$.invoke = function (method) {
-  var args = slice.call(arguments, 1);
-  return function (xs) {
-    var fn = xs[method];
-    return fn.apply(xs, args);
-  };
-};
+$.reduce = (fn, init) => (xs) => xs.reduce(fn, init);
+$.map = (fn) => (xs) => xs.map(fn);
+$.filter = (fn) => (xs) => xs.filter(fn);
 
 // end - export
 module.exports = $;

@@ -1,3 +1,10 @@
+2.0.0 / 2016-01-XX
+==================
+  * Rewrite for ES6
+  * `range` now only works with a single argument version
+  * `invoke` removed (more complex than native ES6)
+
+
 1.0.1 / 2015-11-15
 ==================
   * Added `.npmignore`
