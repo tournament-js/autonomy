@@ -17,12 +17,9 @@ var $ = require('autonomy');
 
 and get functional:
 
-```javascript
+```js
 $.id(x) === x;
 $.noop(x) === undefined;
-
-var fn = $(fn1, fn2, fn3);
-fn(a); // fn3(fn2(fn1(a)))
 
 [1,3,2].map($.constant(5)); // [5, 5, 5]
 
@@ -36,21 +33,13 @@ $.gcd(10, 15); // 5
 
 $.range(5); // [ 1, 2, 3, 4, 5 ]
 
-$.zip($.range(5), [1,2], [3,2,5]); // [ [ 1, 1, 3 ], [ 2, 2, 2 ] ]
-$.zipWith($.gcd, [5, 10, 15], $.range(5)); // [ 1, 2, 3 ]
-
-$.iterate(3, "ha!", function (str) {
-  return "ha" + str
-}); // [ 'ha!', 'haha!', 'hahaha!' ]
-
-[[1,2], [3,4]].map($.invoke('join','w')); // [ '1w2', '3w4']
+$.zip3($.range(5), [1,2], [3,2,5]); // [ [ 1, 1, 3 ], [ 2, 2, 2 ] ]
+$.zipWith2($.gcd, [5, 10, 15], $.range(5)); // [ 1, 2, 3 ]
 ```
 
 Read the read the [API](https://github.com/clux/autonomy/blob/master/api.md).
 
-In most cases the [operators](https://github.com/clux/operators) module provides some almost must have additions to autonomy.
-
-*This modules makes up the core part of the larger utility library*: [interlude](https://github.com/clux/interlude). If you find yourself co-using `operators` or `subset`, you should use `interlude` instead (there's also more documentation included for interlude).
+*This modules makes up the core part of the larger utility library*: [interlude](https://github.com/clux/interlude). If you find yourself co-using `operators` or `subset`, you could use `interlude` instead (there's also more documentation included for interlude).
 
 ## Installation
 

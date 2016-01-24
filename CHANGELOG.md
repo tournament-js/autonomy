@@ -3,6 +3,14 @@
   * Rewrite for ES6
   * `range` now only works with a single argument version
   * `invoke` removed (more complex than native ES6)
+  * `scan` removed
+  * `iterate` removed
+  * `get` removed (pointless in ES6)
+  * main composition function `$(f, g[, h, []])` removed (generally bad style)
+  * `extend` is now just `Object.assign` (which makes is better)
+  * `copy` removed (pointless variadic thing almost never used)
+  * `constant` removed (pointless with arrow functions)
+  * `replicate` now takes a lenght and a fn as arguments (avoids `copy`)
 
 
 1.0.1 / 2015-11-15
