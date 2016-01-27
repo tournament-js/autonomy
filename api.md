@@ -151,6 +151,8 @@ $.zip2([1,2,3], [2,2,2]); // [ [1,2], [2,2], [3,2] ]
 $.zip3($.range(5), [1,2], [3,2,5]); // [ [1,1,3], [2,2,2] ]
 ```
 
+Note that `zip` may be used as an alias for `zip2`.
+
 ### $.zipWithN(fn, xs, ys [, zs [, ws]]) :: ls
 Same as `zip`, but applies each result array to `fn`, and collects these results.
 
@@ -160,6 +162,8 @@ zipWith generalises zip by zipping with the function given as the first argument
 $.zipWith2((x, y) => x + y, [1,1,1], $.range(5)); // [ 2, 3, 4 ]
 $.zipWith3((x, y, z) => x*y*z, [2,2,2], [1,0,1], [1,2,3]); // [ 2, 0, 6 ]
 ```
+
+Note that `zipWith` may be used as an alias for `zipWith2`.
 
 ## Curried Prototype Method Accessors
 

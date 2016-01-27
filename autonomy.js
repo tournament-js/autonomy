@@ -77,6 +77,10 @@ $.zip2 = (xs, ys) => $.zipWith2((x, y) => [x, y], xs, ys);
 $.zip3 = (xs, ys, zs) => $.zipWith3(((x, y, z) => [x, y, z]), xs, ys, zs);
 $.zip4 = (xs, ys, zs, ws) => $.zipWith4((x, y, z, w) => [x, y, z, w], xs, ys, zs, ws);
 
+// sensible defaults
+$.zipWith = $.zipWith2;
+$.zip = $.zip2;
+
 // ---------------------------------------------
 // Curried Prototype Accessors
 // ---------------------------------------------
