@@ -1,7 +1,7 @@
 {
   "author": "Eirik Albrigtsen <analsandblaster@gmail.com>",
   "name": "autonomy",
-  "description": "Lightweight functional utility library complementing ES5",
+  "description": "Lightweight functional utility library complementing ES6",
   "version": "1.0.1",
   "repository": {
     "type": "git",
@@ -11,11 +11,10 @@
     "utility",
     "functional",
     "haskell",
-    "partial",
     "curry",
     "zipWith",
     "FP",
-    "ES5"
+    "ES6"
   ],
   "main": "autonomy.js",
   "scripts": {
