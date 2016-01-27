@@ -6,7 +6,7 @@
 
 Autonomy is a lightweight functional helper library. It is meant to complement an ES6 style with curried helpers, math helpers, curried accessors and higher order looping constructs.
 
-These library is partly inspired by Haskell's [Prelude](https://hackage.haskell.org/package/base/docs/Prelude.html), but its exports are optimized for JavaScript semantics and performance.
+These library is partly inspired by Haskell's [Prelude](https://hackage.haskell.org/package/base/docs/Prelude.html).
 
 ## Usage
 Use it with qualified imports with the yet unfinished module `import` syntax or attach it to the short variable of choice. For selling points, here's how it will look with ES7 modules.
@@ -33,11 +33,11 @@ factorial(4); // 24
 
 Read the read the [API](https://github.com/clux/autonomy/blob/master/api.md).
 
-*This modules makes up the core part of the larger utility library*: [interlude](https://github.com/clux/interlude). If you find yourself co-using `operators` or `subset`, you could use `interlude` instead (there's also more documentation included for interlude).
+This modules makes up the core part of the larger utility library [interlude](https://github.com/clux/interlude).
 
 ## Installation
 
-```bash
+```sh
 $ npm install autonomy
 ```
 
