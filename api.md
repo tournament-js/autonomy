@@ -142,6 +142,20 @@ $.replicate(3, (v, k) => [k]); // [ [0], [1], [2] ]
 $.replicate(5).map(cluster.fork); // maps undefined -> cluster.fork
 ```
 
+### $.iterate(times, init, fn) :: results
+Returns a size `times` array of repeated applications of `fn` to `init`:
+
+`$.iterate(times, x, f)` equals `[x, f(x), f(f(x)), ...]`
+
+```js
+$.iterate(5, 2, op.times(2)); // [ 2, 4, 8, 16, 32 ]
+
+// Fibonacci numbers
+var fibPairs = $.iterate(8, [0,1], (x) => [x[1], x[0] + x[1]]);
+$.pluck(0, fibPairs);
+// [ 0, 1, 1, 2, 3, 5, 8, 13 ]
+```
+
 ### $.zipN(xs, ys [, zs [, ws]]) :: ls
 zip takes between 2 and 4 arrays (depending on function chosen) and returns a single array of n length arrays by joining the input arrays on index.
 If any input array is short, excess elements of the longer arrays are discarded.

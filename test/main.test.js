@@ -43,6 +43,12 @@ test('loopingConstructs', function *(t) {
   t.eq([[1,3,5],[2,3,1]].filter($.any(op.gte(5))), [[1,3,5]], 'filter any gte');
   t.eq([[1,3,5],[2,2,2]].filter($.all(op.eq(2))), [[2,2,2]], 'filter all eq');
   t.eq([[1,3,5],[2,2,2]].filter($.none(op.eq(2))), [[1,3,5]], 'filter none eq');
+
+  t.eq($.iterate(4, 5, op.plus(1)), [5,6,7,8], 'iterate 3x (+1)');
+  t.eq($.iterate(5, 2, op.times(2)), [ 2, 4, 8, 16, 32 ], 'iterate 5x (*2)');
+
+  var fibPairs = $.iterate(8, [0,1], (x) => [x[1], x[0] + x[1]]);
+  t.eq($.pluck(0, fibPairs), [ 0, 1, 1, 2, 3, 5, 8, 13 ], 'iterate fibonacci');
 });
 
 test('accessors', function *(t) {

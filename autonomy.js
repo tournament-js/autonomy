@@ -59,6 +59,13 @@ $.lastBy = function (fn, xs) {
 // ---------------------------------------------
 $.range = (length) => Array.from({length}, (v, k) => k + 1);
 $.replicate = (length, fn) => Array.from({length}, fn);
+$.iterate = function (times, init, fn) {
+  var result = [init];
+  for (var i = 1; i < times; i += 1) {
+    result.push(fn(result[i - 1]));
+  }
+  return result;
+};
 
 $.zipWith2 = function (fn, xs, ys) {
   var length = Math.min(xs.length, ys.length);
