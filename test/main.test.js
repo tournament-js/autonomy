@@ -91,10 +91,12 @@ test('accessors', function *(t) {
 });
 
 test('zippers', function *(t) {
-  t.eq($.zipWith2(op.plus2, [1,3,5], [2,4]), [3, 7], 'zipWith plus2');
-  t.eq($.zipWith3(op.plus3, [1,3,5], [0,0,0], [2,4]), [3, 7], 'zipWith add');
+  t.eq($.zipWith2(op.plus2, [1,3,5], [2,4]), [3, 7], 'zipWith2 plus2');
+  t.eq($.zipWith3(op.plus3, [1,3,5], [0,0,0], [2,4]), [3, 7], 'zipWith3 add');
+  t.eq($.zipWith4(op.plus4, [1,3,5], [0,0,0], [2,4], [1,1]), [4, 8], 'zipWith4 add');
   t.eq($.zip2([1,3,5], [2,4]), [[1,2], [3,4]], 'zip 2 lists');
   t.eq($.zip3([1,3,5], [0,0,0], [2,4]), [[1,0,2], [3,0,4]], 'zip 3 lists');
+  t.eq($.zip4([1,3,5], [0,0,0], [2,4], [1,1]), [[1,0,2,1], [3,0,4,1]], 'zip 4 lists');
 });
 
 test('get', function *(t) {
