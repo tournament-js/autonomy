@@ -30,6 +30,7 @@ test('loopingConstructs', function *(t) {
   t.eq($.replicate(5, () => 2), [ 2, 2, 2, 2, 2 ], 'replicate 5x2');
   t.eq($.replicate(3, () => []), [ [], [], [] ], 'replicate 3x[]');
   t.eq($.replicate(3, (v, k) => [k]), [ [0], [1], [2] ], 'using replicate cb');
+  t.eq($.interval(2, 5), [2,3,4,5], 'interval gives correct start and end');
 
   var a = [1];
   var b = $.replicate(2, () => a.slice());

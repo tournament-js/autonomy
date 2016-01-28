@@ -58,6 +58,9 @@ $.lastBy = function (fn, xs) {
 // Higher order looping
 // ---------------------------------------------
 $.range = (length) => Array.from({length}, (v, k) => k + 1);
+$.interval = function (start, stop) {
+  return Array.from({length: stop - start + 1}, (v, k) => start + k);
+};
 $.replicate = (length, fn) => Array.from({length}, fn);
 $.iterate = function (times, init, fn) {
   var result = [init];

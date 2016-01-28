@@ -1,3 +1,7 @@
+2.1.0 / 2016-01-27
+==================
+  * Add `interval` function (two argument version of old `range`)
+
 2.0.0 / 2016-01-27
 ==================
   * Rewrite for ES6
