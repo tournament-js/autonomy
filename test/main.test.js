@@ -11,7 +11,7 @@ test('common', function *(t) {
   t.eq($.range(5).filter($.elem($.range(4))), $.range(4), 'range/elem filter');
   t.eq($.range(5).filter($.notElem($.range(4))), [5], 'range/elem filter');
   t.eq([[1,2], [3,4]].map($.map(op.plus(1))), [ [2,3], [4,5] ], 'map +1');
-  t.eq($.filter($.not(op .gt(2)))([0,1,2,3,4]), [0,1,2], 'filter not');
+  t.eq($.filter($.not(op.gt(2)))([0,1,2,3,4]), [0,1,2], 'filter not');
   var trg = {b: 'boo'};
   var src = {a: 'hi'};
   t.eq($.extend(trg, src), trg, 'extend modifies target');
